@@ -1,0 +1,23 @@
+Tegu on lihtsa autoklikkeri programmiga Windowsi operatsioonisüsteemile.
+See ei tööta Linux/Mac süsteemil, sest põhifunktsioonid kasutavad Windowsi api-d.
+
+Eesmärk oli luua lihtne vabavaraline autoklikker kõige laialdasemalt kasutuses olevale
+op süsteemile, kasutades selleks vaid op süsteemi oma api-d ja keele standardpakke.
+
+Kiire ülevaade programmi funktsionaalsusest:
+!!!Praegu on ainult vasaku hiirenupu kliki funktsionaalsus!!!
+	*Kui on huvi siis pole raske lisada näiteks paremklikid
+	*https://learn.microsoft.com/en-us/windows/win32/api/winuser/ns-winuser-mouseinput
+-lihtsa hiiremakro loomine
+-lihtsa hiiremakro salvestamine
+-lihtsa hiiremakro kustutamine
+-hiirt järgiv autoklikker
+-makro loopi/hiirt järgiva klikkeri vahel oleva aja muutmine
+-failist erineva makro laadimine teise makro kasutamiseks
+
+Tegu on vabavaraga ning seda võib omal vastutusel muuta, jagada, edasi müüa jne.
+Antud programmi arendaja ei vastututa programmi kasutusel tekkinud probleemide eest.
+Antud programmi arendaja ei paku antud programmile kasutajatuge peale dokumentatsiooni failide
+ja lähtekoodi kommentaaride.
+Antud programmi arendaja ei garanteeri funktsionaalsus- ja turvauuendusi tulevikus.
+

@@ -340,8 +340,6 @@ int main(){
 				cout << "Vajuta klahvi D, et kustutada failist olemasolev makro." << endl;
 				cout << "Vajuta klahvi Q, et muuta aega makro loopide vahel." << endl;
 				cout << "Vajuta klahvi ESC, et lõpetada programmi töö." << endl << endl;
-				cout << "Kui makro mõnes makronimes on vigased sümbolid, ava makroStore.txt fail ning kustuta sisu jättes tühja tekstifaili või" << endl;
-				cout << "kustuta nimest vigased sümbolid." << endl;
 				cout << "Praegu on failis sellised makrod:" << endl;
 				listMacros(z);
 				textDisplayed = true;
@@ -411,7 +409,6 @@ int main(){
 		if (GetKeyState(67) < 0 && laetud1 == false) {
 			laetud1 = true;
 			addMacro();
-			//kiirParandus();
 			textDisplayed = false;
 		} else if (GetKeyState(67) >= 0 && laetud1 == true) {
 			laetud1 = false;

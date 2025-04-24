@@ -1,4 +1,4 @@
 Program on kompileeritud TDM-GCC 9.2.0 64-bit Release compileriga,
 mis tuli koos Embarcadero Dev-C++ 6.3 installatsiooniga.
 Saadud .exe fail käivitub Windowsi arvutis klikkimisel.
-Antud .exe fail kompileeriti 4/23/2025 kell 12:30.
+Antud .exe fail kompileeriti 4/24/2025 kell 10:30.

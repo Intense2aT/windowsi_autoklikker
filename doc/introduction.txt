@@ -15,6 +15,11 @@ Kiire ülevaade programmi funktsionaalsusest:
 -makro loopi/hiirt järgiva klikkeri vahel oleva aja muutmine
 -failist erineva makro laadimine teise makro kasutamiseks
 
+Lisatud 04/24/2025
+-makro klikkide vahel oleva aja tüüp on nüüd muudetav:
+	-vana ehk ainult loopide vahel
+	-uus ehk iga makro kliki vahel
+
 Tegu on vabavaraga ning seda võib omal vastutusel muuta, jagada, edasi müüa jne.
 Antud programmi arendaja ei vastututa programmi kasutusel tekkinud probleemide eest.
 Antud programmi arendaja ei paku antud programmile kasutajatuge peale dokumentatsiooni failide

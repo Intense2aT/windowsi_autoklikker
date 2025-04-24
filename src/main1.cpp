@@ -293,6 +293,7 @@ int main(){
 	bool laetud3 = false;
 	bool laetud4 = false;
 	bool laetud5 = false;
+	bool laetud6 = false;
 	
 	//makro jaoks
 	bool isClicking = false;
@@ -300,9 +301,12 @@ int main(){
 	bool isClicking2 = false;
 	bool textDisplayed = false;
 	
-	int changable = 0;
+	//makro loopi ja iga kliki vaheline delay sõltuvalt kasutaja valikust (false == standard loopi vaheline, true == iga kliki vaheline)
+	//ei mõjuta hiirt järgivat klikkerit
+	bool delayType = false;
+	
 	int V_state;
-	int makroDelay = 50;
+	int makroDelay = 100;
 	
 	//hoiatus
 	cout << "TEGU ON WINDOWSI OPERATSIOONISÜSTEEMILE MÕELDUD PROGRAMMIGA, SEE EI TÖÖTA LINUX/MAC SÜSTEEMIL!" << endl;
@@ -339,6 +343,7 @@ int main(){
 				cout << "Vajuta klahvi C, et luua uus makro." << endl;
 				cout << "Vajuta klahvi D, et kustutada failist olemasolev makro." << endl;
 				cout << "Vajuta klahvi Q, et muuta aega makro loopide vahel." << endl;
+				cout << "Vajuta klahvi T, et muuta, kas paus on makro loopide või iga eraldi kliki vahel." << endl;
 				cout << "Vajuta klahvi ESC, et lõpetada programmi töö." << endl << endl;
 				cout << "Praegu on failis sellised makrod:" << endl;
 				listMacros(z);
@@ -358,27 +363,48 @@ int main(){
 		
 		//makro
 		while (isClicking == true) {
-			V_state = GetKeyState(86);
-			if (V_state < 0 && laetud3 == false) {
-				isClicking = false;
-				textDisplayed = false;
-				laetud3 = true;
-			} else if (V_state >= 0 && laetud3 == true) {
-				laetud3 = false;
+			if (delayType == false) {
+				//iga loopi vahel makroDelay
+				SendInput(currentMacroLen, inputs, sizeof(INPUT));
+				Sleep(makroDelay);
+				
+				V_state = GetKeyState(86);
+				if (V_state < 0 && laetud == false) {
+					isClicking = false;
+					textDisplayed = false;
+					laetud = true;
+				} else if (V_state >= 0 && laetud == true) {
+					laetud = false;
+				}
+			} else if (delayType == true) {
+				//iga kliki vahel makroDelay
+				for (int i = 0; i < currentMacroLen; i++) {
+					INPUT uksik[1] = {inputs[i]};
+					SendInput(1, uksik, sizeof(INPUT));
+					Sleep(makroDelay);
+					
+					//loopi sisene väljumine, et programm oleks rohkem responsive kasutajale
+					V_state = GetKeyState(86);
+					if (V_state < 0 && laetud == false) {
+						isClicking = false;
+						textDisplayed = false;
+						laetud = true;
+						break;
+					} else if (V_state >= 0 && laetud == true) {
+						laetud = false;
+					}
+				}
 			}
-			
-			SendInput(currentMacroLen, inputs, sizeof(INPUT));
-			Sleep(makroDelay);
 		}
 		
 		//hiirt järgiv
 		while (isClicking2 == true) {
-			if (GetKeyState(72) < 0 && laetud5 == false) {
+			if (GetKeyState(72) < 0 && laetud1 == false) {
 				isClicking2 = false;
 				textDisplayed = false;
-				laetud5 = true;
-			} else if (GetKeyState(72) >= 0 && laetud5 == true) {
-				laetud5 = false;
+				laetud1 = true;
+			} else if (GetKeyState(72) >= 0 && laetud1 == true) {
+				laetud1 = false;
 			}
 			
 			SendInput(2, hiirtjargiv, sizeof(INPUT));
@@ -386,8 +412,8 @@ int main(){
 		}
 		
 		//lae failist teine makro (G)
-		if (GetKeyState(71) < 0 && laetud == false) {
-			laetud = true;
+		if (GetKeyState(71) < 0 && laetud2 == false) {
+			laetud2 = true;
 			system("CLS");
 			cout << "Sisesta salvestatud makro nimi, mida soovid kasutada: ";
 			cin >> nimi;
@@ -401,61 +427,78 @@ int main(){
 				Sleep(2000);
 			}
 			textDisplayed = false;
-		} else if (GetKeyState(71) >= 0 && laetud == true) {
-			laetud = false;
+		} else if (GetKeyState(71) >= 0 && laetud2 == true) {
+			laetud2 = false;
 		}
 		
 		//loo uus makro (C)
-		if (GetKeyState(67) < 0 && laetud1 == false) {
-			laetud1 = true;
+		if (GetKeyState(67) < 0 && laetud3 == false) {
+			laetud3 = true;
 			addMacro();
 			textDisplayed = false;
-		} else if (GetKeyState(67) >= 0 && laetud1 == true) {
-			laetud1 = false;
+		} else if (GetKeyState(67) >= 0 && laetud3 == true) {
+			laetud3 = false;
 		}
 		
 		//loo uus makro (D)
-		if (GetKeyState(68) < 0 && laetud2 == false) {
-			laetud2 = true;
+		if (GetKeyState(68) < 0 && laetud4 == false) {
+			laetud4 = true;
 			system("CLS");
 			listMacros(z);
 			cout << "Sisesta makro nimi mille soovid kustutada: ";
 			cin >> nimi;
 			deleteMacro(nimi);
 			textDisplayed = false;
-		} else if (GetKeyState(68) >= 0 && laetud2 == true) {
-			laetud2 = false;
+		} else if (GetKeyState(68) >= 0 && laetud4 == true) {
+			laetud4 = false;
 		}
 		
 		//muuda klikiaega (Q)
-		if (GetKeyState(81) < 0 && laetud4 == false) {
-			laetud4 = true;
+		if (GetKeyState(81) < 0 && laetud5 == false) {
+			laetud5 = true;
 			system("CLS");
 			cout << "Antud ooteaeg on makro loopide, mitte iga eraldi kliki vahel." << endl;
 			cout << "Liiga väike aeg loopide vahel ei pruugi hästi töötada aeglasemates arvutites (aeglasema arvutiga soovituslik >10)." << endl;
 			cout << "Sisesta aeg (täisarv, millisekundid): ";
 			cin >> makroDelay;
 			textDisplayed = false;
-		} else if (GetKeyState(81) >= 0 && laetud4 == true) {
-			laetud4 = false;
+		} else if (GetKeyState(81) >= 0 && laetud5 == true) {
+			laetud5 = false;
 		}
 		
 		//lülita sisse/välja makro (V) 
-		if (V_state < 0 && laetud3 == false) {
+		if (V_state < 0 && laetud == false) {
 			isClicking = true;
 			textDisplayed = false;
-			laetud3 = true;
-		} else if (V_state >= 0 && laetud3 == true) {
-			laetud3 = false;
+			laetud = true;
+		} else if (V_state >= 0 && laetud == true) {
+			laetud = false;
 		}
 		
 		//lülita sisse/välja hiirt järgiv klikkimine (H) 
-		if (GetKeyState(72) < 0 && laetud5 == false) {
+		if (GetKeyState(72) < 0 && laetud1 == false) {
 			isClicking2 = true;
 			textDisplayed = false;
-			laetud5 = true;
-		} else if (GetKeyState(72) >= 0 && laetud5 == true) {
-			laetud5 = false;
+			laetud1 = true;
+		} else if (GetKeyState(72) >= 0 && laetud1 == true) {
+			laetud1 = false;
+		}
+		
+		//delay tüübi vahetus (T)
+		if (GetKeyState(84) < 0 && laetud6 == false) {
+			laetud6 = true;
+			char x[1] = {0};
+			system("CLS");
+			cout << "Sisesta \"j\" loopi vahelise ning \"e\" iga kliki vahelise aja jaoks: ";
+			cin >> x;
+			if (strcmp(x, "j") == 0) {
+				delayType = false;
+			} else if (strcmp(x, "e") == 0) {
+				delayType = true;
+			}
+			textDisplayed = false;
+		} else if (GetKeyState(84) >= 0 && laetud6 == true) {
+			laetud6 = false;
 		}
 
 		//välju (ESC)
